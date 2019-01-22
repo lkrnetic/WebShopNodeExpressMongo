@@ -1,0 +1,63 @@
+<% include ./partials/header %>
+
+
+<div class="container">
+  <div class="jumbotron mb-4" style="text-align:center;">
+    <h2>Welcome to <%= user.username %>'s site!</h2>
+    <hr class="my-4">
+    <p class="lead">View <%= user.username %>'s products and order something if u like it!</p>
+  </div> 
+</div>
+
+<div class="container">
+  <div class="row justify-content-between my-5">
+      <div class="col-sm-6">
+          <div class="card ml-5" style="width:230px;height:220px;text-align:center;">
+            <img class="card-img-top" src="http://www.netakademija.hr/wp-content/uploads/2015/03/icon-user-default.png" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title"><%= user.username %></h5>
+                <p><%= user.username %></p>
+                <p><%= user.email %></p>
+                <p><%= user.adress %></p>
+                <p><%= user.zipcode %></p>
+                <p><%= user.phonenumber %></p>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 align-self-end">
+          <h5 class="float-right" style="margin-bottom:0px"><%= user.username %>'s products</h5>
+      </div>
+    </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-sm-6">
+          <% user.orders.forEach(function(order) { %>
+            <ul class="list-group my-4">
+              <li class="list-group-item"><b>Order id</b> <%= order._id %></li>
+              <li class="list-group-item"><b>Order products</b></li>
+              <% order.orderProducts.forEach(function(orderProduct) { %>
+                <li class="list-group-item"><b>Product name:</b> <%= orderProduct.productName %>, <b>Product price:</b> <%=orderProduct.productPrice %> </li>
+                <% }) %> 
+                <li class="list-group-item"><b>Order price:</b> <%= order.orderTotalPrice %></li>
+                <li class="list-group-item"><b>Order date: </b><%= order.orderDate %></li>
+            </ul>
+            <% }) %> 
+        </div>
+        <div class="col-sm-6">
+            <% user.products.forEach(function(product) { %>
+              <div class="card ml-5 float-right" style="width: 18rem; margin-left:200px;text-align:center;">
+                 <img class="card-img-top" src="<%= product.img %>" style="width:280px;height:140px"alt="Card image cap">
+                  <div class="card-body">
+                  <h5 class="card-title"><%= product.name %></h5>
+                  <p><%= product.price %></p>
+                  <a href="/products/<%= product._id %>" class="btn btn-primary">More info</a>
+                </div>
+              </div>
+            <% }) %> 
+        </div>
+      </div>
+    </div>
+    
+
+<% include ./partials/footer %>

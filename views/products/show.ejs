@@ -1,0 +1,50 @@
+
+<% include ../partials/header %>
+    
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-md-6">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="<%= product.img %>" style="width:280px;height:380px;" alt="Card image cap">
+                  <div class="card-body">
+                        <h5 class="card-title"><b>Product name:</b> <%= product.name %></h5>
+                        <p><b>Product description:</b> <%= product.description %></p>
+                        <p>Created: <%= product.createdAt %></p>
+                        <p>Submitted by <i><a href="/user/<%= product.productOwner.id %>"><%= product.productOwner.username %></a></i></p>
+                        <% if(currentUser.id == product.productOwner.id){ %>
+                            <form  class="d-inline" method = "POST" action="/products/<%= product._id%>?_method=DELETE">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                            <a href="/products/<%= product.id %>/edit"><button type="button" class="btn btn-warning">Edit Product</button></a>
+                        <% } %>
+                        
+                        <form class="d-inline" method="POST" action="/basket/<%= currentUser.id %>">
+                            <div class="form-group invisible">
+                                        <input type="text" class="form-control" name ="productImg" value = "<%= product.img %>">
+                                        <input type="text" class="form-control" name ="productName" value = "<%= product.name %>">
+                                        <input type="text" class="form-control" name ="productOwner" value = "<%= product._id %>">
+                                        <input type="text" class="form-control" name ="productPrice" value = "<%= product.price %>">
+                            </div>
+                            <button class="btn btn-info">Add To Basket</button>
+                        </form>
+                        <a href="/products/<%= product.id %>/comments/new"><button type="button" class="btn btn-success">Add new comment</button></a>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                        <h3>Comments</h3>
+                         <% product.comments.forEach(function(comment) { %>
+                            <p><b><%= comment.author.username %> </b></p>
+                            <p><%= comment.text %></p>
+                            <hr style="width:480px;margin-left:0px">
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+        
+         
+
+
+
+<% include ../partials/footer %>
